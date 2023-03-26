@@ -7,69 +7,167 @@
             <h2 class="fw-bold mb-2 text-uppercase">Register</h2>
             <p class="text-white-50 mb-5">Please enter your details!</p>
 
-            <form>
+            <form [formGroup]="registerForm">
               <div class="row">
                 <div class="col-md-6 mb-4">
                   <div class="form-outline form-white">
                     <input
+                      formControlName="firstname"
                       type="text"
                       id="firstName"
                       class="form-control form-control-lg"
                       placeholder="Max"
+                      [class.error]="
+                        registerForm.controls.firstname.dirty &&
+                        registerForm.hasError('required', 'firstname')
+                      "
                     />
                     <label class="form-label" for="firstName">First name</label>
+                    <div
+                      class="invalid-feedback d-block"
+                      *ngIf="
+                        firstname.invalid &&
+                        (firstname.dirty || firstname.touched)
+                      "
+                    >
+                      <div *ngIf="firstname.errors?.required">
+                        *First Name required!
+                      </div>
+                      <div
+                        *ngIf="
+                          firstname.errors?.minlength &&
+                          !firstname.errors?.required
+                        "
+                      >
+                        *First Name should have at least 2 characters!
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="col-md-6 mb-4">
                   <div class="form-outline form-white">
                     <input
+                      formControlName="lastname"
                       type="text"
                       id="lastName"
                       class="form-control form-control-lg"
                       placeholder="Mustermann"
+                      [class.error]="
+                        registerForm.controls.lastname.dirty &&
+                        registerForm.hasError('required', 'lastname')
+                      "
                     />
                     <label class="form-label" for="lastName">Last name</label>
+                  </div>
+                  <div
+                    class="invalid-feedback d-block"
+                    *ngIf="
+                      lastname.invalid && (lastname.dirty || lastname.touched)
+                    "
+                  >
+                    <div *ngIf="lastname.errors?.required">
+                      *Last Name required!
+                    </div>
+                    <div
+                      *ngIf="
+                        lastname.errors?.minlength && !lastname.errors?.required
+                      "
+                    >
+                      *Last Name should have at least 2 characters!
+                    </div>
                   </div>
                 </div>
               </div>
 
               <div class="form-outline form-white mb-4">
                 <input
+                  formControlName="email"
                   type="email"
                   id="email"
                   class="form-control form-control-lg"
                   placeholder="email@gmail.com"
+                  [class.error]="
+                    registerForm.controls.email.dirty &&
+                    registerForm.hasError('required', 'email')
+                  "
                 />
                 <label class="form-label" for="email">Email</label>
+                <div
+                  class="invalid-feedback d-block"
+                  *ngIf="email.invalid && (email.dirty || email.touched)"
+                >
+                  <div *ngIf="email.errors">*Email is invalid!</div>
+                </div>
               </div>
 
               <div class="row">
                 <div class="col-md-6 mb-4">
                   <div class="form-outline form-white mb-4">
                     <input
+                      formControlName="password"
                       type="password"
                       id="password"
                       class="form-control form-control-lg"
                       placeholder="Password"
+                      [class.error]="
+                        registerForm.controls.password.dirty &&
+                        registerForm.hasError('required', 'password')
+                      "
                     />
                     <label class="form-label" for="password">Password</label>
+                    <div
+                      class="invalid-feedback d-block"
+                      *ngIf="
+                        password.invalid && (password.dirty || password.touched)
+                      "
+                    >
+                      <div *ngIf="password.errors?.required">
+                        *Password is required!
+                      </div>
+                      <div
+                        *ngIf="
+                          password.errors?.minlength &&
+                          !password.errors?.required
+                        "
+                      >
+                        *Password should have at least 8 characters!
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="col-md-6 mb-4">
                   <div class="form-outline form-white mb-4">
                     <input
+                      formControlName="birthdate"
                       type="date"
                       id="dateOfBirth"
                       class="form-control form-control-lg"
+                      [class.error]="
+                        registerForm.controls.birthdate.dirty &&
+                        registerForm.hasError('required', 'birthdate')
+                      "
                     />
                     <label class="form-label" for="dateOfBirth"
                       >Date of Birth</label
                     >
+                    <div
+                      class="invalid-feedback d-block"
+                      *ngIf="
+                        birthdate.invalid &&
+                        (birthdate.dirty || birthdate.touched)
+                      "
+                    >
+                      <div *ngIf="birthdate.errors">*Enter your Birthday!</div>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <button class="btn btn-outline-light btn-lg px-5" type="submit">
+              <button
+                (click)="onSubmit()"
+                class="btn btn-outline-light btn-lg px-5"
+                type="submit"
+              >
                 Register
                 <a class="fa fa-sign-in text-white"></a>
               </button>

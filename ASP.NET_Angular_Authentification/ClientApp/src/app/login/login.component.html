@@ -17,6 +17,10 @@
                   id="email"
                   class="form-control form-control-lg"
                   placeholder="email@gmail.com"
+                  [class.error]="
+                    loginForm.controls.email.dirty &&
+                    loginForm.hasError('required', 'email')
+                  "
                 />
                 <label class="form-label" for="email">Email</label>
                 <div
@@ -35,6 +39,10 @@
                   class="form-control form-control-lg"
                   placeholder="Password"
                   minlength="8"
+                  [class.error]="
+                    loginForm.controls.password.dirty &&
+                    loginForm.hasError('required', 'password')
+                  "
                 />
                 <label class="form-label" for="password">Password</label>
                 <div
@@ -60,8 +68,12 @@
                 <a class="text-white-50" href="#!">Forgot password?</a>
               </p>
 
-              <button class="btn btn-outline-light btn-lg px-5" type="submit">
-                Login <a class="fa fa-sign-in text-white"></a>
+              <button
+                (click)="onSubmit()"
+                class="btn btn-outline-light btn-lg px-5"
+                type="submit"
+              >
+                Login <a class="fa fa-sign-in"></a>
               </button>
             </form>
 

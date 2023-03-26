@@ -1,3 +1,22 @@
 .transparent {
     background: transparent;
 }
+
+.form-control {
+
+}
+
+.form-control.error{
+    border: 2px solid red;
+    color:red;
+}
+
+.fa-sign-in {
+    color: white !important;
+}
+
+.btn:hover .fa-sign-in{
+    color: black !important;
+}
+
+

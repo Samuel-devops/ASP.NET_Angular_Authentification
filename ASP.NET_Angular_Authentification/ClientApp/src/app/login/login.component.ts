@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import ValidateForm from '../helpers/validateform';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,7 @@ export class LoginComponent implements OnInit {
         Validators.compose([
           Validators.required,
           Validators.email,
-          Validators.maxLength(20),
+          Validators.maxLength(50),
           Validators.minLength(3),
         ]),
       ],
@@ -27,6 +28,18 @@ export class LoginComponent implements OnInit {
         Validators.compose([Validators.required, Validators.minLength(8)]),
       ],
     });
+  }
+
+  onSubmit() {
+    if (this.loginForm.valid) {
+      console.log(this.loginForm.value);
+      // Send the obj to database
+    } else {
+      console.log('Form is invalid!');
+      // throw the error using toaster and with required fields
+      ValidateForm.validateAllFromFields(this.loginForm);
+      alert('Form is Invalid!');
+    }
   }
 
   get email() {
