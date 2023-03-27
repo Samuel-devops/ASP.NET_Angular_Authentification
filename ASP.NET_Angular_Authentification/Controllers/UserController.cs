@@ -1,6 +1,7 @@
 namespace ASP.NET_Angular_Authentification.Controllers;
 
 using ASP.NET_Angular_Authentification.Context;
+using ASP.NET_Angular_Authentification.Helpers;
 using ASP.NET_Angular_Authentification.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,6 +39,10 @@ public class UserController : ControllerBase
         {
             return this.BadRequest();
         }
+
+        userObj.Password = PasswordHasher.HashPassword(userObj.Password);
+        userObj.Role = "User";
+        userObj.Token = "";
 
         this.context.Users.Add(userObj);
         this.context.SaveChanges();
