@@ -44,7 +44,6 @@ export class RegisterComponent implements OnInit {
 
   onSubmit() {
     if (this.registerForm.valid) {
-      console.log(this.registerForm.value);
       // Send the obj to database
       this.authService.register(this.registerForm.value)
       .subscribe({
