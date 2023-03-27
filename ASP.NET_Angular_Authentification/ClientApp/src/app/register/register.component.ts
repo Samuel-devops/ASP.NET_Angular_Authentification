@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import ValidateForm from '../helpers/validateform';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -10,7 +12,9 @@ import ValidateForm from '../helpers/validateform';
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router) {}
 
   ngOnInit(): void {
     this.registerForm = this.fb.group({
@@ -42,6 +46,17 @@ export class RegisterComponent implements OnInit {
     if (this.registerForm.valid) {
       console.log(this.registerForm.value);
       // Send the obj to database
+      this.authService.register(this.registerForm.value)
+      .subscribe({
+        next:(res)=>{
+          alert(res.message);
+          this.registerForm.reset();
+          this.router.navigate(['/login']);
+        },
+        error:(err)=>{
+          alert(err?.error.message);
+        }
+      })
     } else {
       console.log('Register Form Invalid!');
       // throw the error using toaster and with required fields
