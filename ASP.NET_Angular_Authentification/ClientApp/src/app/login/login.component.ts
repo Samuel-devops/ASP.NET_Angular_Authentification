@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import ValidateForm from '../helpers/validateform';
 import { Router } from '@angular/router';
+import { NgToastService } from 'ng-angular-popup';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router) {}
+    private router: Router,
+    private toast: NgToastService) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -42,12 +44,12 @@ export class LoginComponent implements OnInit {
       this.authService.login(this.loginForm.value)
       .subscribe({
         next:(res)=>{
-          alert(res.message);
+          this.toast.success({detail:"SUCCESS", summary:res.message, duration: 5000});
           this.loginForm.reset();
           this.router.navigate(['']);
         },
         error:(err)=>{
-          alert(err?.error.message)
+          this.toast.error({detail:"Error", summary:"Something went wrong!", duration: 5000});
         }
       })
     } else {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgToastService } from 'ng-angular-popup';
 import ValidateForm from '../helpers/validateform';
 import { AuthService } from '../services/auth.service';
 
@@ -15,7 +16,8 @@ export class RegisterComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router) {}
+    private router: Router,
+    private toast: NgToastService) {}
 
   ngOnInit(): void {
     this.registerForm = this.fb.group({
@@ -49,7 +51,7 @@ export class RegisterComponent implements OnInit {
       this.authService.register(this.registerForm.value)
       .subscribe({
         next:(res)=>{
-          alert(res.message);
+          this.toast.success({detail:"SUCCESS", summary:res.message, duration: 5000});
           this.registerForm.reset();
           this.router.navigate(['/login']);
         },
@@ -61,7 +63,7 @@ export class RegisterComponent implements OnInit {
       console.log('Register Form Invalid!');
       // throw the error using toaster and with required fields
       ValidateForm.validateAllFromFields(this.registerForm);
-      alert('Register Form Invalid!');
+      this.toast.error({detail:"ERROR", summary:"Register Form Invalid!", duration: 5000});
     }
   }
 
