@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
+  showPassword: boolean = false;
 
   constructor(private fb: FormBuilder,
     private authService: AuthService,
@@ -55,6 +56,10 @@ export class LoginComponent implements OnInit {
       ValidateForm.validateAllFromFields(this.loginForm);
       alert('Form is Invalid!');
     }
+  }
+
+  toggleShowPassword():void {
+    this.showPassword = !this.showPassword;
   }
 
   get email() {

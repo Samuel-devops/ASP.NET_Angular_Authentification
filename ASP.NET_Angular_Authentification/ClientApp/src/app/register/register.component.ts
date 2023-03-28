@@ -11,6 +11,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
+  showPassword: boolean = false;
 
   constructor(private fb: FormBuilder,
     private authService: AuthService,
@@ -62,6 +63,10 @@ export class RegisterComponent implements OnInit {
       ValidateForm.validateAllFromFields(this.registerForm);
       alert('Register Form Invalid!');
     }
+  }
+
+  toggleShowPassword():void {
+    this.showPassword = !this.showPassword;
   }
 
   get firstname() {

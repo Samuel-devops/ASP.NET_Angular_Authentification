@@ -32,9 +32,10 @@
               </div>
 
               <div class="form-outline form-white mb-4">
+                <div class="input-field">
                 <input
                   formControlName="password"
-                  type="password"
+                  type="{{ showPassword ? 'text' : 'password' }}"   
                   id="password"
                   class="form-control form-control-lg"
                   placeholder="Password"
@@ -44,6 +45,9 @@
                     loginForm.hasError('required', 'password')
                   "
                 />
+                <a toggle="#password-field" type="button" class="password-toggle bg-dark" (click)="toggleShowPassword()">
+                  <i class="fa fa-eye-slash text-white" [ngClass]="{ 'fa-eye': showPassword, 'fa-eye-slash': !showPassword }"></i>
+                </a>
                 <label class="form-label" for="password">Password</label>
                 <div
                   class="invalid-feedback d-block"
@@ -63,6 +67,7 @@
                   </div>
                 </div>
               </div>
+            </div>          
 
               <p class="small mb-5 pb-lg-2">
                 <a class="text-white-50" href="#!">Forgot password?</a>
