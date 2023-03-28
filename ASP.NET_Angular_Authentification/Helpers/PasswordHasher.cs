@@ -13,7 +13,7 @@ public class PasswordHasher
     {
         byte[] salt;
         rng.GetBytes(salt = new byte[SaltSize]);
-        var key = new Rfc2898DeriveBytes(password, salt);
+        var key = new Rfc2898DeriveBytes(password, salt, Iterations);
         var hash = key.GetBytes(HashSize);
 
         var hashBytes = new byte[SaltSize + HashSize];
