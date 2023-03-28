@@ -8,6 +8,7 @@ using ASP.NET_Angular_Authentification.Helpers;
 using ASP.NET_Angular_Authentification.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -26,11 +27,15 @@ public class UserController : ControllerBase
         }
 
         var user = this.context.Users
-                       .FirstOrDefault(u => u.Email == userObj.Email &&
-                       Equals(u.Password, userObj.Password));
+                       .FirstOrDefault(u => u.Email == userObj.Email);
         if (user == null)
         {
             return this.NotFound(new { message = "User not Found!" });
+        }
+
+        if (!PasswordHasher.VerifyPassword(userObj.Password, user.Password))
+        {
+            return this.BadRequest(new { message = "Password incorrect!" });
         }
 
         return this.Ok(new { message = "Login Success!" });
@@ -51,9 +56,9 @@ public class UserController : ControllerBase
         }
         // Check Password Strenght
         var passw = CheckPassswortStrenght(userObj.Password);
-        if (string.IsNullOrEmpty(passw))
+        if (!string.IsNullOrEmpty(passw))
         {
-            return this.BadRequest(new { message = passw });
+            return this.BadRequest(new { message = passw.ToString() });
         }
 
         userObj.Password = PasswordHasher.HashPassword(userObj.Password);
