@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using ASP.NET_Angular_Authentification.Context;
 using ASP.NET_Angular_Authentification.Helpers;
 using ASP.NET_Angular_Authentification.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -74,7 +75,8 @@ public class UserController : ControllerBase
         return this.Ok(new { message = "User Registred!" });
     }
 
-    [HttpGet("users")]
+    [Authorize]
+    [HttpGet("getUsers")]
     public IActionResult GetUsers() => this.Ok(this.context.Users.ToList());
 
     private static string CheckPassswortStrenght(string password)
@@ -115,7 +117,7 @@ public class UserController : ControllerBase
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = identity,
-            Expires = DateTime.Now.AddDays(1),
+            Expires = DateTime.Now.AddSeconds(10),
             SigningCredentials = credentials
         };
         var token = jwtHandler.CreateToken(tokenDescriptor);

@@ -2,7 +2,6 @@ using System.Text;
 using ASP.NET_Angular_Authentification.Context;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,7 +14,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCors(opt => opt.AddPolicy("MyPolicy", builder => builder.AllowAnyOrigin()
         .AllowAnyMethod()
         .AllowAnyHeader()));
-
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDbContext<AppDbContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerConnStr")));
 builder.Services.AddAuthentication(x =>
 {
@@ -31,25 +30,29 @@ builder.Services.AddAuthentication(x =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("veryverysecret.....")),
         ValidateAudience = false,
         ValidateIssuer = false,
+        ClockSkew = TimeSpan.Zero,
     };
 });
 
 var app = builder.Build();
 
-app.UseSwagger().UseSwaggerUI();
-
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseSwagger().UseSwaggerUI();
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 app.UseCors("MyPolicy");
-app.UseAuthentication();
-app.UseStaticFiles();
 app.UseRouting();
+
+app.UseAuthentication();
+
+app.UseAuthorization();
+
+app.UseStaticFiles();
 
 app.MapControllerRoute(
     name: "default",

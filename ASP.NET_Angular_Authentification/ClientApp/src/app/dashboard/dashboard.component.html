@@ -1,1 +1,20 @@
-<h1 class="text-light">dashboard works!</h1>
+<div class="bg-dark p-5 rounded text-white">
+    <div class="col-sm-8 py-5 mx-auto">
+      <h1 class="display-5 fw-normal">Welcome</h1>
+      <div class="py-5">
+        <h3 class="fw-normal">Users: </h3>
+        <ul *ngFor="let user of users">
+          <li>{{user.email}}</li>
+        </ul>
+      </div>
+      <div>
+        <button
+          (click)="logout()"
+          class="btn btn-outline-light btn-lg px-5"
+          type="submit"
+        >
+          Logout <a class="fa fa-sign-out"></a>
+        </button>
+      </div>
+    </div>
+  </div>

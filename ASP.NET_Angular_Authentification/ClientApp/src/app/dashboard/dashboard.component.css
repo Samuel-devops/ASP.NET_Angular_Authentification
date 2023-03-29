@@ -1,0 +1,7 @@
+.fa-sign-out {
+    color: white !important;
+}
+
+.btn:hover .fa-sign-out{
+    color: red !important;
+}
