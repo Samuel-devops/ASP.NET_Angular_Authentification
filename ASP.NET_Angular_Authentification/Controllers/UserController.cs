@@ -75,10 +75,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("users")]
-    public IActionResult GetUsers()
-    {
-        return this.Ok(this.context.Users.ToList());
-    }
+    public IActionResult GetUsers() => this.Ok(this.context.Users.ToList());
 
     private static string CheckPassswortStrenght(string password)
     {
