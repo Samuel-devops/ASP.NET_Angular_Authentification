@@ -77,7 +77,7 @@ public class UserController : ControllerBase
 
     [Authorize]
     [HttpGet("getUsers")]
-    public IActionResult GetUsers() => this.Ok(this.context.Users.ToList());
+    public async Task<IActionResult> GetUsers() => this.Ok(await this.context.Users.ToListAsync());
 
     private static string CheckPassswortStrenght(string password)
     {
@@ -100,7 +100,7 @@ public class UserController : ControllerBase
         return sb.ToString();
     }
 
-    private Task<bool> CheckEmailExistAsync(string email) => this.context.Users.AnyAsync(u => Equals(u.Email.ToUpper(), email.ToUpper()));
+    private async Task<bool> CheckEmailExistAsync(string email) => await this.context.Users.AnyAsync(u => Equals(u.Email.ToUpper(), email.ToUpper()));
 
     private static string CreateJWT(User user)
     {

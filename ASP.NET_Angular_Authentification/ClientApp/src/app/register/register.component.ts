@@ -56,10 +56,12 @@ export class RegisterComponent implements OnInit {
           this.router.navigate(['/login']);
         },
         error:(err)=>{
-          alert(err?.error.message);
+        const errorMessage = err?.error?.message || 'Something went wrong!';
+        this.toast.error({detail: "ERROR", summary: errorMessage, duration: 5000});
         }
       })
-    } else {
+    } 
+    else {
       console.log('Register Form Invalid!');
       // throw the error using toaster and with required fields
       ValidateForm.validateAllFromFields(this.registerForm);
